@@ -107,11 +107,11 @@ Bring down Tessera node which needs to be upgraded and update the configuration 
 
 Refer [sample configuration](https://docs.tessera.consensys.net/en/latest/Reference/SampleConfiguration/) for further details.
 
-    !!! note
+## Switchable Feature
 
-    For any given node the privacy manager (Tessera) is started first and for that reason we allow the Tessera node to be upgraded with privacy enhancements support ahead of GoQuorum upgrade. But when GoQuorum node is upgraded and Geth is reinitialised with `privacyEnhancementsBlock`, GoQuorum node will validate the version of Tessera running and will fail to start if Tessera is not running an upgraded version. The GoQuorum node reports an appropriate error message in the console suggesting users to upgrade Tessera first.
+For any given node the privacy manager (Tessera) is started first and for that reason we allow the Tessera node to be upgraded with privacy enhancements support ahead of GoQuorum upgrade. But when GoQuorum node is upgraded and Geth is reinitialised with `privacyEnhancementsBlock`, GoQuorum node will validate the version of Tessera running and will fail to start if Tessera is not running an upgraded version. The GoQuorum node reports an appropriate error message in the console suggesting users to upgrade Tessera first.
 
-    If a node wants to upgrade it's Tessera code to privacy enhancements release (or further) to avail other features and fixes but not ready to upgrade GoQuorum, it can do so by not enabling `enablePrivacyEnhancements` in Tessera config. This will allow the node to reject PP and PSV transactions from other nodes until the node is ready to support privacy enhanced contracts/transactions.
+If a node wants to upgrade it's Tessera code to privacy enhancements release (or further) to avail other features and fixes but not ready to upgrade GoQuorum, it can do so by not enabling `enablePrivacyEnhancements` in Tessera config. This will allow the node to reject PP and PSV transactions from other nodes until the node is ready to support privacy enhanced contracts/transactions.
 
 ## Backward compatability
 
