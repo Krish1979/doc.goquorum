@@ -59,21 +59,59 @@ No interactions are allowed between the different types of private contracts/tra
 The privacy enhancements feature only performs it’s checks on submitted/minted transactions.
 None of the above limitations apply to calls (read only transactions). In this context calls are contract method invocations that are executed locally and do not result in minted transactions.
 
-## Configuration Changes
+## Upgrading to GoQuorum 20.10.0
+
+A node running on GoQuorum 20.10.0 can coexist on a network where other nodes are running on lower version of GoQuorum and thus supports rolling upgrade. The suggested upgrade process is as described below:
+
 
 ### GoQuorum
 
-`genesis.json` file has been modified to include `privacyEnhancementsBlock`. The values for this should be set to an appropriate value in the future (and should be initialised with same value across all the nodes in the network) by when the entire network would be ready to transact with privacy enhanced contracts/transactions.
+Bring down the node which needs to be upgraded to GoQuorum 20.10.0. Modify the `genesis.json` file to include `privacyEnhancementsBlock`. The values for this should be set to an appropriate value in the future (and should be initialised with same value across all the nodes in the network) by when the entire network would be ready to transact with privacy enhanced contracts/transactions.
+
+
+    !!! example
+
+        ```javascript
+        "config": {
+            "homesteadBlock": 0,
+            "byzantiumBlock": 0,
+            "constantinopleBlock":0,
+            "istanbulBlock":0,
+            "petersburgBlock":0,
+            "chainId": 2289,
+            "eip150Block": 0,
+            "eip155Block": 0,
+            "eip150Hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "eip158Block": 0,
+            "isQuorum": true,
+            "privacyEnhancementsBlock": 123456789,
+            "maxCodeSizeConfig" : [
+              {
+                "block" : 0,
+                "size" : 32
+              }
+            ]
+          },
+        ```
+
 
 ### Tessera
 
-New flag `enablePrivacyEnhancements` has been added to Tessera config defaulting to `FALSE`, and can be enabled by adding the property to the config file the same way as other features. Refer sample configuration for further details.
+Bring down Tessera node which needs to be upgraded and update the configuration file to include `enablePrivacyEnhancements` parameter as shown below. 
 
-## Enabling Privacy Enhancements in the GoQuorum Network
+    ```json
+     "features" : {
+        "enablePrivacyEnhancements" : "true"
+      }
+    ```
 
-For any given node the privacy manager (Tessera) is started first and for that reason we allow the Tessera node to be upgraded with privacy enhancements support ahead of GoQuorum upgrade. But when GoQuorum node is upgraded and Geth is reinitialised with `privacyEnhancementsBlock`, GoQuorum node will validate the version of Tessera running and will fail to start if Tessera is not running an upgraded version. The GoQuorum node reports an appropriate error message in the console suggesting users to upgrade Tessera first.
+Refer [sample configuration](https://docs.tessera.consensys.net/en/latest/Reference/SampleConfiguration/) for further details.
 
-If a node wants to upgrade it's Tessera to privacy enhancements release (or further) to avail other features and fixes but not ready to upgrade GoQuorum, it can do so by not enabling `enablePrivacyEnhancements` in Tessera config. This will allow the node to reject PP and PSV transactions from other nodes until the node is ready to support privacy enhanced contracts/transactions.
+    !!! note
+
+    For any given node the privacy manager (Tessera) is started first and for that reason we allow the Tessera node to be upgraded with privacy enhancements support ahead of GoQuorum upgrade. But when GoQuorum node is upgraded and Geth is reinitialised with `privacyEnhancementsBlock`, GoQuorum node will validate the version of Tessera running and will fail to start if Tessera is not running an upgraded version. The GoQuorum node reports an appropriate error message in the console suggesting users to upgrade Tessera first.
+
+    If a node wants to upgrade it's Tessera code to privacy enhancements release (or further) to avail other features and fixes but not ready to upgrade GoQuorum, it can do so by not enabling `enablePrivacyEnhancements` in Tessera config. This will allow the node to reject PP and PSV transactions from other nodes until the node is ready to support privacy enhanced contracts/transactions.
 
 ## Backward compatability
 
